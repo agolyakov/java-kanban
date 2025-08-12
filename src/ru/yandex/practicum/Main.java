@@ -2,7 +2,7 @@ package ru.yandex.practicum;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         TaskManager taskManager = new TaskManager();
 
         // Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
