@@ -173,8 +173,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Обновление статуса эпика
-    @Override
-    public void updateEpicStatus(int epicId) {
+    private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
 

@@ -49,8 +49,5 @@ public interface TaskManager {
     // Получение подзадач эпика
     ArrayList<Subtask> getEpicSubtasks(int epicId);
 
-    // Обновление статуса эпика
-    void updateEpicStatus(int epicId);
-
     List<Task> getHistory();
 }
