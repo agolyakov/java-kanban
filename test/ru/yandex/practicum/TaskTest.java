@@ -100,4 +100,20 @@ class TaskTest {
         assertEquals(task.getId(), taskManager.getTask(taskId).getId());
     }
 
+    @Test
+    void shouldEmptySubtasksAfterDeleteEpic() throws Exception {
+        Epic epic = new Epic("Эпик", "Описание эпика");
+        final int epicId = taskManager.createEpic(epic).getId();
+
+        Subtask subtask = new Subtask("Сабтаска", "Описание сабтаски", epicId);
+        taskManager.createSubtask(subtask);
+        Subtask subtask1 = new Subtask("Сабтаска1", "Описание сабтаски 1", epicId);
+        taskManager.createSubtask(subtask1);
+
+        assertFalse(taskManager.getAllSubtasks().isEmpty());
+
+        taskManager.deleteEpic(epicId);
+        assertTrue(taskManager.getAllSubtasks().isEmpty());
+    }
+
 }
