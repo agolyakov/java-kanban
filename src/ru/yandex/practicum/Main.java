@@ -1,7 +1,5 @@
 package ru.yandex.practicum;
 
-import java.util.List;
-
 public class Main {
 
     static TaskManager taskManager = Managers.getDefault();
@@ -9,13 +7,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
-        System.out.println("Создана задача " + taskManager.createTask(new Task("Задача", "Описание задачи")));
+        System.out.println("Создана задача " + taskManager.createTask(new Task("Задача 1", "Описание задачи 1")));
         System.out.println("Создана задача 2 " + taskManager.createTask(new Task("Задача 2", "Описание задачи 2")));
-        System.out.println("Создан эпик " + taskManager.createEpic(new Epic("Эпик", "Описание эпика")));
-        System.out.println("Создана подзадача в Эпик " + taskManager.createSubtask(new Subtask("Подзадача", "Описание подзадачи", 3)));
-        System.out.println("Создана подзадача в Эпик " + taskManager.createSubtask(new Subtask("Подзадача", "Описание подзадачи", 3)));
-        System.out.println("Создан эпик 2 " + taskManager.createEpic(new Epic("Эпик 2", "Описание эпика 2")));
-        System.out.println("Создана подзадача в Эпик 2 " + taskManager.createSubtask(new Subtask("Подзадача", "Описание подзадачи", 6)));
+        System.out.println("Создан эпик " + taskManager.createEpic(new Epic("Эпик 3", "Описание эпика 3")));
+        System.out.println("Создана подзадача в Эпик " + taskManager.createSubtask(new Subtask("Подзадача 4", "Описание подзадачи 4", 3)));
+        System.out.println("Создана подзадача в Эпик " + taskManager.createSubtask(new Subtask("Подзадача 5", "Описание подзадачи 5", 3)));
+        System.out.println("Создан эпик 2 " + taskManager.createEpic(new Epic("Эпик 6", "Описание эпика 6")));
+        System.out.println("Создана подзадача в Эпик 2 " + taskManager.createSubtask(new Subtask("Подзадача 7", "Описание подзадачи 7", 6)));
 
         System.out.println();
 
