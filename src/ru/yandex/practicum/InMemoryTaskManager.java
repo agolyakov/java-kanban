@@ -1,12 +1,9 @@
 package ru.yandex.practicum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int nextId = 1;
+    private int nextId = 0;
     private final Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
@@ -14,32 +11,52 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Создание задач
     @Override
-    public Task createTask(Task task) throws Exception {
-        if (tasks.containsKey(task.getId())) {
-            throw new Exception("Задача с таким ID уже существует.");
-        } else {
-            task.setId(nextId++);
-            tasks.put(task.getId(), task);
-            return task;
+    public Task createTask(Task task) {
+        int id = task.getId();
+        if (id == 0) {
+            task = setNextId(task);
+            id = task.getId();
         }
+
+        if (tasks.containsKey(id)) {
+            throw new IllegalArgumentException("Задача с таким ID уже существует.");
+        }
+
+        tasks.put(id, task);
+        updateNextId(id);
+        return task;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
-        epic.setId(nextId++);
-        epics.put(epic.getId(), epic);
+        int id = epic.getId();
+        if (id == 0) {
+            epic = setNextId(epic);
+            id = epic.getId();
+        }
+
+        epics.put(id, epic);
+        updateNextId(id);
         return epic;
     }
 
     @Override
-    public Subtask createSubtask(Subtask subtask) throws Exception {
+    public Subtask createSubtask(Subtask subtask) {
         if (!epics.containsKey(subtask.getEpicId())) {
-            throw new Exception("Эпика не существует");
+            throw new IllegalArgumentException("Эпика не существует");
         }
-        subtask.setId(nextId++);
-        subtasks.put(subtask.getId(), subtask);
-        epics.get(subtask.getEpicId()).addSubtaskId(subtask.getId());
+
+        int id = subtask.getId();
+        if (id == 0) {
+            subtask = setNextId(subtask);
+            id = subtask.getId();
+        }
+
+        subtasks.put(id, subtask);
+
+        epics.get(subtask.getEpicId()).addSubtaskId(id);
         updateEpicStatus(subtask.getEpicId());
+        updateNextId(id);
         return subtask;
     }
 
@@ -158,7 +175,7 @@ public class InMemoryTaskManager implements TaskManager {
     // Получение списков задач
     @Override
     public ArrayList<Task> getAllTasks() {
-        for (Task task: tasks.values()) {
+        for (Task task : tasks.values()) {
             historyManager.add(task);
         }
         return new ArrayList<>(tasks.values());
@@ -166,7 +183,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<Epic> getAllEpics() {
-        for (Epic epic: epics.values()) {
+        for (Epic epic : epics.values()) {
             historyManager.add(epic);
         }
         return new ArrayList<>(epics.values());
@@ -174,7 +191,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<Subtask> getAllSubtasks() {
-        for (Subtask subtask: subtasks.values()) {
+        for (Subtask subtask : subtasks.values()) {
             historyManager.add(subtask);
         }
         return new ArrayList<>(subtasks.values());
@@ -196,6 +213,32 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return result;
+    }
+
+    private void updateNextId(int value) {
+        if (value > nextId) nextId = value;
+    }
+
+    private <T extends Task> T setNextId(T obj) {
+        findMaxId();
+        obj.setId(++nextId);
+        return obj;
+    }
+
+    private void findMaxId() {
+        int maxId = 0;
+
+        if (!epics.isEmpty()) {
+            maxId = Math.max(maxId, Collections.max(epics.keySet()));
+        }
+        if (!subtasks.isEmpty()) {
+            maxId = Math.max(maxId, Collections.max(subtasks.keySet()));
+        }
+        if (!tasks.isEmpty()) {
+            maxId = Math.max(maxId, Collections.max(tasks.keySet()));
+        }
+
+        nextId = maxId;
     }
 
     // Обновление статуса эпика

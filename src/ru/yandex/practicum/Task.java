@@ -2,6 +2,8 @@ package ru.yandex.practicum;
 
 import java.util.Objects;
 
+import static ru.yandex.practicum.TaskType.TASK;
+
 public class Task {
     private int id;
     private String name;
@@ -20,6 +22,10 @@ public class Task {
 
     public String getName() {
         return name;
+    }
+
+    public TaskType getType() {
+        return TASK;
     }
 
     public String getDescription() {
@@ -63,4 +69,19 @@ public class Task {
     public String toString() {
         return "Task{id=" + id + ", name='" + name + "', description='" + description + "', status=" + status + "}";
     }
+
+    public String toString(Task task) {
+        String toString = task.getId() + "," +
+                task.getType() + "," +
+                task.getName() + "," +
+                task.getStatus() + "," +
+                task.getDescription();
+
+        if (task instanceof Subtask subtask) {
+            return toString + "," + subtask.getEpicId();
+        }
+
+        return toString + ",";
+    }
+
 }

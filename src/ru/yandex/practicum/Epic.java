@@ -1,6 +1,7 @@
 package ru.yandex.practicum;
 
 import java.util.ArrayList;
+import static ru.yandex.practicum.TaskType.EPIC;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subtaskIds = new ArrayList<>();
@@ -22,8 +23,18 @@ public class Epic extends Task {
     }
 
     @Override
+    public TaskType getType() {
+        return EPIC;
+    }
+
+    @Override
     public String toString() {
         return "Epic{" + super.toString() + ", subtasks=" + subtaskIds + "}";
     }
+
+    public String toString(Epic epic) {
+        return super.toString(epic);
+    }
+
 }
 

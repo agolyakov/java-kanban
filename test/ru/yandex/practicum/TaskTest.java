@@ -18,7 +18,7 @@ class TaskTest {
     static TaskManager taskManager = Managers.getDefault();
 
     @Test
-    void addNewTask() throws Exception {
+    void addNewTask() {
         Task task = new Task("Задача", "Описание");
         final int taskId = taskManager.createTask(task).getId();
 
@@ -35,7 +35,7 @@ class TaskTest {
     }
 
     @Test
-    void shouldEqualsObjectIfIdEquals() throws Exception {
+    void shouldEqualsObjectIfIdEquals() {
         Task task1 = new Task("Задача 1", "Описание 1");
         final int task1Id = taskManager.createTask(task1).getId();
 
@@ -57,7 +57,7 @@ class TaskTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenAddingEpicAsSubtask() throws Exception {
+    void shouldThrowExceptionWhenAddingEpicAsSubtask() {
         Epic epic = new Epic("Эпик", "Описание эпика");
         final int epicId = taskManager.createEpic(epic).getId();
 
@@ -76,7 +76,7 @@ class TaskTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenCreateTaskWithDuplicateId() throws Exception {
+    void shouldThrowExceptionWhenCreateTaskWithDuplicateId() {
         Task task = new Task("Задача", "Описание");
         int taskId = taskManager.createTask(task).getId();
         Task taskDuplicate = new Task("Задача", "Описание");
@@ -90,7 +90,7 @@ class TaskTest {
     }
 
     @Test
-    void shouldNotChangeTaskAfterCreateInManager() throws Exception {
+    void shouldNotChangeTaskAfterCreateInManager() {
         Task task = new Task("Задача", "Описание");
         int taskId = taskManager.createTask(task).getId();
 
@@ -101,7 +101,7 @@ class TaskTest {
     }
 
     @Test
-    void shouldEmptySubtasksAfterDeleteEpic() throws Exception {
+    void shouldEmptySubtasksAfterDeleteEpic() {
         Epic epic = new Epic("Эпик", "Описание эпика");
         final int epicId = taskManager.createEpic(epic).getId();
 

@@ -12,7 +12,7 @@ public class InMemoryHistoryManagerTest {
     static HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Test
-    void savePreviousDataHistory() throws Exception {
+    void savePreviousDataHistory() {
         Task task = new Task("Задача", "Описание");
         Task taskTwo = new Task("Задача 2", "Описание 2");
         taskManager.createTask(task);
@@ -29,7 +29,7 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldEmptyHistoryAfterRemoveAllTasks() throws Exception {
+    void shouldEmptyHistoryAfterRemoveAllTasks() {
         Task task = new Task("Задача", "Описание");
         taskManager.createTask(task);
         historyManager.add(task);
@@ -42,7 +42,7 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldEmptyHistoryAfterDeleteTaskInTaskManager() throws Exception {
+    void shouldEmptyHistoryAfterDeleteTaskInTaskManager() {
         Task task = new Task("Задача", "Описание");
         taskManager.createTask(task);
         taskManager.getTask(task.getId());
