@@ -43,7 +43,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return manager;
     }
 
-    Task fromString(String value) {
+    private Task fromString(String value) {
         String[] parts = value.split(",");
         if (parts.length < 5) {
             throw new ManagerLoadException("Неверный формат строки: " + value);
@@ -171,7 +171,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    public void save() {
+    private void save() {
         try (BufferedWriter fileWriter = new BufferedWriter(
                 new FileWriter(file.getPath(), StandardCharsets.UTF_8))) {
 
