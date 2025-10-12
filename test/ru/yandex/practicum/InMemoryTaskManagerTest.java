@@ -17,7 +17,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createTaskAnyTypeAndSearchById() throws Exception {
+    void createTaskAnyTypeAndSearchById() {
         Task task = new Task("Задача", "Описание");
         Epic epic = new Epic("Эпик", "Описание эпика");
         int taskId = taskManager.createTask(task).getId();
@@ -36,7 +36,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getAllTasks() throws Exception {
+    void getAllTasks() {
         Task task1 = new Task("Задача1", "Описание");
         Task task2 = new Task("Задача2", "Описание");
         Task task3 = new Task("Задача3", "Описание");
@@ -53,7 +53,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteAllTasks() throws Exception {
+    void deleteAllTasks() {
         Task task = new Task("Задача", "Описание");
         taskManager.createTask(task);
 
@@ -63,7 +63,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void updateTask() throws Exception {
+    void updateTask() {
         Task task = new Task("Задача", "Описание");
         int taskId = taskManager.createTask(task).getId();
 
@@ -75,7 +75,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteTaskById() throws Exception {
+    void deleteTaskById() {
         Task task = new Task("Задача", "Описание");
         int taskId = taskManager.createTask(task).getId();
         assertNotNull(taskManager.getAllTasks());
@@ -86,7 +86,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void updateEpicStatusWhenSubtaskStatusUpdate() throws Exception {
+    void updateEpicStatusWhenSubtaskStatusUpdate() {
         Epic epic = new Epic("Эпик", "Описание");
         int epicId = taskManager.createEpic(epic).getId();
 

@@ -2,26 +2,33 @@ package ru.yandex.practicum;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ManagersTest {
     @Test
-    void initializeManagers() throws Exception {
+    void initializeManagers() {
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
+        TaskManager fileBackedTaskManager = Managers.getFromFile(new File("resources/savedFile.csv"));
 
         Task task = new Task("Задача", "Описание");
         taskManager.createTask(task);
         historyManager.add(task);
         final List<Task> history = historyManager.getHistory();
         final List<Task> tasks = taskManager.getAllTasks();
+        final List<Task> tasksFromFile = fileBackedTaskManager.getAllTasks();
 
         assertNotNull(history, "После добавления задачи, история не должна быть пустой.");
         assertEquals(1, history.size(), "После добавления задачи, история не должна быть пустой.");
 
         assertNotNull(tasks, "После создания задачи, список задач не должен быть пустой.");
         assertEquals(1, tasks.size(), "После создания задачи, список задач не должен быть пустой.");
+
+        assertNotNull(tasksFromFile, "После инициализации менеджера из файла, список задач не должен быть пустой");
+        assertEquals(1, tasksFromFile.size(), "После инициализации менеджера из файла, " +
+                "список задач не должен быть пустой");
     }
 }

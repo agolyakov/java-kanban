@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface TaskManager {
     // Создание задач
-    Task createTask(Task task) throws Exception;
+    Task createTask(Task task);
 
     Epic createEpic(Epic epic);
 
-    Subtask createSubtask(Subtask subtask) throws Exception;
+    Subtask createSubtask(Subtask subtask);
 
     // Обновление задач
     void updateTask(Task task);
