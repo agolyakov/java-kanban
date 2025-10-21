@@ -1,10 +1,13 @@
 package ru.yandex.practicum;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class Main {
 
-    static File savedFile = new File("resources/savedFile.csv");
+    static File savedFile = new File("resources/onlyHeader.csv");
 
     static TaskManager taskManagerForFile = Managers.getFromFile(savedFile);
 
@@ -15,13 +18,13 @@ public class Main {
         System.out.println(taskManagerForFile.getAllEpics());
 
         // Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
-        System.out.println("Создана задача " + taskManagerForFile.createTask(new Task("Задача 1", "Описание задачи 1")));
-        System.out.println("Создана задача 2 " + taskManagerForFile.createTask(new Task("Задача 2", "Описание задачи 2")));
+        System.out.println("Создана задача " + taskManagerForFile.createTask(new Task("Задача 1", "Описание задачи 1", Duration.of(5, ChronoUnit.MINUTES), LocalDateTime.now())));
+        System.out.println("Создана задача 2 " + taskManagerForFile.createTask(new Task("Задача 2", "Описание задачи 2", Duration.of(5, ChronoUnit.MINUTES), LocalDateTime.now().plusMinutes(5))));
         System.out.println("Создан эпик " + taskManagerForFile.createEpic(new Epic("Эпик 3", "Описание эпика 3")));
-        System.out.println("Создана подзадача в Эпик " + taskManagerForFile.createSubtask(new Subtask("Подзадача 4", "Описание подзадачи 4", 3)));
-        System.out.println("Создана подзадача в Эпик " + taskManagerForFile.createSubtask(new Subtask("Подзадача 5", "Описание подзадачи 5", 3)));
+        System.out.println("Создана подзадача в Эпик " + taskManagerForFile.createSubtask(new Subtask("Подзадача 4", "Описание подзадачи 4", Duration.of(5, ChronoUnit.MINUTES), LocalDateTime.now().plusMinutes(10), 3)));
+        System.out.println("Создана подзадача в Эпик " + taskManagerForFile.createSubtask(new Subtask("Подзадача 5", "Описание подзадачи 5", Duration.of(5, ChronoUnit.MINUTES), LocalDateTime.now().plusMinutes(15), 3)));
         System.out.println("Создан эпик 2 " + taskManagerForFile.createEpic(new Epic("Эпик 6", "Описание эпика 6")));
-        System.out.println("Создана подзадача в Эпик 2 " + taskManagerForFile.createSubtask(new Subtask("Подзадача 7", "Описание подзадачи 7", 6)));
+        System.out.println("Создана подзадача в Эпик 2 " + taskManagerForFile.createSubtask(new Subtask("Подзадача 7", "Описание подзадачи 7", Duration.of(5, ChronoUnit.MINUTES), LocalDateTime.now().plusMinutes(20), 6)));
 
         System.out.println();
 
@@ -29,24 +32,9 @@ public class Main {
         System.out.println("Список эпиков " + taskManagerForFile.getAllEpics());
         System.out.println("Список задач " + taskManagerForFile.getAllTasks());
         System.out.println("Список подзадач " + taskManagerForFile.getAllSubtasks());
+        System.out.println("Список отсортированных задач и подзадач: " + taskManagerForFile.getPrioritizedTasks());
 
         System.out.println();
-
-        // Измените статусы созданных объектов, распечатайте их.
-        // Проверьте, что статус задачи и подзадачи сохранился, а статус эпика рассчитался по статусам подзадач.
-        taskManagerForFile.getTask(1).setStatus(Status.IN_PROGRESS);
-        taskManagerForFile.getTask(2).setStatus(Status.DONE);
-        taskManagerForFile.updateTask(taskManagerForFile.getTask(1));
-        taskManagerForFile.updateTask(taskManagerForFile.getTask(2));
-        taskManagerForFile.getSubtask(4).setStatus(Status.IN_PROGRESS);
-        taskManagerForFile.getSubtask(5).setStatus(Status.DONE);
-        taskManagerForFile.getSubtask(7).setStatus(Status.DONE);
-        taskManagerForFile.updateSubtask(taskManagerForFile.getSubtask(4));
-        taskManagerForFile.updateSubtask(taskManagerForFile.getSubtask(5));
-        taskManagerForFile.updateSubtask(taskManagerForFile.getSubtask(7));
-        System.out.println(taskManagerForFile.getAllTasks());
-        System.out.println(taskManagerForFile.getAllSubtasks());
-        System.out.println(taskManagerForFile.getAllEpics());
 
         // И, наконец, попробуйте удалить одну из задач и один из эпиков.
         taskManagerForFile.deleteTask(1);
