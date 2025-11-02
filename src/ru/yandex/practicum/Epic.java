@@ -1,10 +1,12 @@
 package ru.yandex.practicum;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import static ru.yandex.practicum.TaskType.EPIC;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subtaskIds = new ArrayList<>();
+    LocalDateTime endTime;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -20,6 +22,15 @@ public class Epic extends Task {
 
     public void removeSubtaskId(int subtaskId) {
         subtaskIds.remove((Integer) subtaskId);
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+      return endTime;
     }
 
     @Override

@@ -3,6 +3,8 @@ package ru.yandex.practicum;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +16,7 @@ public class ManagersTest {
         HistoryManager historyManager = Managers.getDefaultHistory();
         TaskManager fileBackedTaskManager = Managers.getFromFile(new File("resources/savedFile.csv"));
 
-        Task task = new Task("Задача", "Описание");
+        Task task = new Task("Задача", "Описание", Duration.ofMinutes(5), LocalDateTime.of(2025, 10, 19, 20, 15));
         taskManager.createTask(task);
         historyManager.add(task);
         final List<Task> history = historyManager.getHistory();

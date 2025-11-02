@@ -1,12 +1,15 @@
 package ru.yandex.practicum;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static ru.yandex.practicum.TaskType.SUBTASK;
 
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(String name, String description, int epicId) {
-        super(name, description);
+    public Subtask(String name, String description, Duration duration, LocalDateTime startTime, int epicId) {
+        super(name, description, duration, startTime);
         this.epicId = epicId;
     }
 

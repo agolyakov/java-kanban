@@ -2,6 +2,8 @@ package ru.yandex.practicum;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             List<String> lines = new ArrayList<>();
             String header = fileReader.readLine(); // Первая строка заголовок в csv
-            if (header == null || !header.startsWith("id,type,name,status,description,epic")) {
+            if (header == null || !header.startsWith("id,type,name,status,description,duration,startTime,epic")) {
                 throw new ManagerLoadException("Файл имеет неверный формат.");
             }
 
@@ -45,7 +47,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private Task fromString(String value) {
         String[] parts = value.split(",");
-        if (parts.length < 5) {
+        if (parts.length < 7) {
             throw new ManagerLoadException("Неверный формат строки: " + value);
         }
 
@@ -54,14 +56,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String name = parts[2];
         String status = parts[3];
         String description = parts[4];
+        Duration duration = Duration.ofMinutes(Long.parseLong(parts[5]));
+        LocalDateTime startTime = LocalDateTime.parse(parts[6]);
         int epicId = -1;
-        if (parts.length > 5) {
-            epicId = Integer.parseInt(parts[5]);
+        if (parts.length > 7) {
+            epicId = Integer.parseInt(parts[7]);
         }
 
         switch (type) {
             case "TASK":
-                Task task = new Task(name, description);
+                Task task = new Task(name, description, duration, startTime);
                 task.setId(id);
                 task.setStatus(Status.valueOf(status));
                 return task;
@@ -70,13 +74,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 Epic epic = new Epic(name, description);
                 epic.setId(id);
                 epic.setStatus(Status.valueOf(status));
+                epic.setDuration(duration);
+                epic.setStartTime(startTime);
                 return epic;
 
             case "SUBTASK":
                 if (epicId == -1) {
                     throw new IllegalArgumentException("У подзадачи отсутствует ID эпика.");
                 }
-                Subtask subtask = new Subtask(name, description, epicId);
+                Subtask subtask = new Subtask(name, description, duration, startTime, epicId);
                 subtask.setId(id);
                 subtask.setStatus(Status.valueOf(status));
                 return subtask;
@@ -175,7 +181,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedWriter fileWriter = new BufferedWriter(
                 new FileWriter(file.getPath(), StandardCharsets.UTF_8))) {
 
-            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("id,type,name,status,description,duration,startTime,epic\n");
 
             // Добавляем в один список и записываем все задачи, эпики и подзадачи
             List<Task> allTasks = new ArrayList<>();

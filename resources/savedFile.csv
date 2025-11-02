@@ -1,4 +1,4 @@
-id,type,name,status,description,epic
-2,TASK,Задача 2,DONE,Описание задачи 2,
-6,EPIC,Эпик 6,DONE,Описание эпика 6,
-7,SUBTASK,Подзадача 7,DONE,Описание подзадачи 7,6
+id,type,name,status,description,duration,startTime,epic
+2,TASK,Задача 2,DONE,Описание задачи 2,5,2025-10-19T20:15,
+6,EPIC,Эпик 6,DONE,Описание эпика 6,5,2025-10-19T20:25,
+7,SUBTASK,Подзадача 7,DONE,Описание подзадачи 7,5,2025-10-19T20:25,6

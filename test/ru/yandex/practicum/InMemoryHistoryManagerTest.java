@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class InMemoryHistoryManagerTest {
@@ -13,8 +15,8 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     void savePreviousDataHistory() {
-        Task task = new Task("Задача", "Описание");
-        Task taskTwo = new Task("Задача 2", "Описание 2");
+        Task task = new Task("Задача", "Описание", Duration.ofMinutes(5), LocalDateTime.of(2025, 10, 19, 20, 15));
+        Task taskTwo = new Task("Задача 2", "Описание 2", Duration.ofMinutes(5), LocalDateTime.of(2025, 10, 19, 20, 20));
         taskManager.createTask(task);
         taskManager.createTask(taskTwo);
         taskManager.getTask(task.getId());
@@ -30,7 +32,7 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     void shouldEmptyHistoryAfterRemoveAllTasks() {
-        Task task = new Task("Задача", "Описание");
+        Task task = new Task("Задача", "Описание", Duration.ofMinutes(5), LocalDateTime.of(2025, 10, 19, 20, 25));
         taskManager.createTask(task);
         historyManager.add(task);
         List<Task> history = historyManager.getHistory();
@@ -43,7 +45,7 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     void shouldEmptyHistoryAfterDeleteTaskInTaskManager() {
-        Task task = new Task("Задача", "Описание");
+        Task task = new Task("Задача", "Описание", Duration.ofMinutes(5), LocalDateTime.of(2025, 10, 19, 20, 15));
         taskManager.createTask(task);
         taskManager.getTask(task.getId());
         List<Task> history = taskManager.getHistory();

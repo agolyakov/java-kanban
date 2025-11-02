@@ -1,19 +1,33 @@
 package ru.yandex.practicum;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import static ru.yandex.practicum.TaskType.TASK;
 
-public class Task {
+public class Task implements Comparable<Task> {
     private int id;
     private String name;
     private String description;
     private Status status;
+    private Duration duration;
+    private LocalDateTime startTime;
+
+    public Task(String name, String description, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
+        this.duration = Duration.ZERO;
     }
 
     public int getId() {
@@ -36,6 +50,22 @@ public class Task {
         return status;
     }
 
+    public long getDuration() {
+        return duration.toMinutes();
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
+
+        return startTime.plus(duration);
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -50,6 +80,14 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     @Override
@@ -67,7 +105,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{id=" + id + ", name='" + name + "', description='" + description + "', status=" + status + "}";
+        return "Task{id=" + id + ", name='" + name + "', description='" + description + "', status=" + status
+                + ", duration=" + duration.toMinutes() + ", startTime=" + startTime + ", endTime=" + getEndTime() + "}";
     }
 
     public String toString(Task task) {
@@ -75,7 +114,9 @@ public class Task {
                 task.getType() + "," +
                 task.getName() + "," +
                 task.getStatus() + "," +
-                task.getDescription();
+                task.getDescription() + "," +
+                task.getDuration() + "," +
+                task.getStartTime();
 
         if (task instanceof Subtask subtask) {
             return toString + "," + subtask.getEpicId();
@@ -84,4 +125,17 @@ public class Task {
         return toString + ",";
     }
 
+    @Override
+    public int compareTo(Task o) {
+        return this.getStartTime().compareTo(o.getStartTime());
+    }
+
+    public boolean crossTasks(Task o) {
+        long startTime1 = this.getStartTime().toEpochSecond(ZoneOffset.UTC);
+        long endTime1 = this.getEndTime().toEpochSecond(ZoneOffset.UTC);
+        long startTime2 = o.getStartTime().toEpochSecond(ZoneOffset.UTC);
+        long endTime2 = o.getEndTime().toEpochSecond(ZoneOffset.UTC);
+
+        return endTime1 > startTime2 && endTime2 > startTime1;
+    }
 }

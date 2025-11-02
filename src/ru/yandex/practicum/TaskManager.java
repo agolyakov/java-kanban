@@ -1,7 +1,7 @@
 package ru.yandex.practicum;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     // Создание задач
@@ -40,14 +40,16 @@ public interface TaskManager {
     void deleteSubtask(int id);
 
     // Получение списков задач
-    ArrayList<Task> getAllTasks();
+    List<Task> getAllTasks();
 
-    ArrayList<Epic> getAllEpics();
+    List<Epic> getAllEpics();
 
-    ArrayList<Subtask> getAllSubtasks();
+    List<Subtask> getAllSubtasks();
+
+    TreeSet<Task> getPrioritizedTasks();
 
     // Получение подзадач эпика
-    ArrayList<Subtask> getEpicSubtasks(int epicId);
+    List<Subtask> getEpicSubtasks(int epicId);
 
     List<Task> getHistory();
 }
