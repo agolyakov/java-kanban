@@ -6,6 +6,7 @@ import java.time.ZoneOffset;
 import java.util.Objects;
 
 import static ru.yandex.practicum.TaskType.TASK;
+import static ru.yandex.practicum.Status.NEW;
 
 public class Task implements Comparable<Task> {
     private int id;
@@ -18,7 +19,7 @@ public class Task implements Comparable<Task> {
     public Task(String name, String description, Duration duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = NEW;
         this.duration = duration;
         this.startTime = startTime;
     }
@@ -26,7 +27,7 @@ public class Task implements Comparable<Task> {
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = NEW;
         this.duration = Duration.ZERO;
     }
 
