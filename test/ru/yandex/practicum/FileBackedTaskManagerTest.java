@@ -2,6 +2,7 @@ package ru.yandex.practicum;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.exception.ManagerLoadException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
